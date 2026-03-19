@@ -1,0 +1,33 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(claude --version)",
+      "Bash(uv --version)",
+      "Bash(claude -p \"Say hello\" --output-format json)",
+      "Bash(claude -p \"Return JSON: {\"\"test\"\": true}\" --model haiku --output-format json)",
+      "Bash(claude -p \"Extract: Title is Hello World, category is test\" --model haiku --output-format json --json-schema '{\"\"\"\"type\"\"\"\":\"\"\"\"object\"\"\"\",\"\"\"\"properties\"\"\"\":{\"\"\"\"title\"\"\"\":{\"\"\"\"type\"\"\"\":\"\"\"\"string\"\"\"\"},\"\"\"\"category\"\"\"\":{\"\"\"\"type\"\"\"\":\"\"\"\"string\"\"\"\"}},\"\"\"\"required\"\"\"\":[\"\"\"\"title\"\"\"\",\"\"\"\"category\"\"\"\"]}')",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(d[''''result'''']\\)\")",
+      "Bash(claude -p \"Extract as JSON only, no other text: Title is Hello World, category is test. Return {\"\"title\"\": ..., \"\"category\"\": ...}\" --model haiku --output-format json)",
+      "Bash(uv sync:*)",
+      "Bash(uv run:*)",
+      "WebSearch",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://www.anthropic.com/rss.xml\\\\n\" -L --max-time 10 https://www.anthropic.com/rss.xml)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://www.anthropic.com/blog/rss\\\\n\" -L --max-time 10 https://www.anthropic.com/blog/rss)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://www.anthropic.com/blog/rss.xml\\\\n\" -L --max-time 10 https://www.anthropic.com/blog/rss.xml)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://www.anthropic.com/news/rss\\\\n\" -L --max-time 10 https://www.anthropic.com/news/rss)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://ai.meta.com/blog/rss.xml\\\\n\" -L --max-time 10 https://ai.meta.com/blog/rss.xml)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://ai.meta.com/feed/\\\\n\" -L --max-time 10 https://ai.meta.com/feed/)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://ai.meta.com/rss.xml\\\\n\" -L --max-time 10 https://ai.meta.com/rss.xml)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://engineering.fb.com/feed/\\\\n\" -L --max-time 10 https://engineering.fb.com/feed/)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://engineering.fb.com/category/ml-applications/feed/\\\\n\" -L --max-time 10 https://engineering.fb.com/category/ml-applications/feed/)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://therundown.ai/feed\\\\n\" -L --max-time 10 https://therundown.ai/feed)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://www.therundown.ai/rss\\\\n\" -L --max-time 10 https://www.therundown.ai/rss)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://therundownai.substack.com/feed\\\\n\" -L --max-time 10 https://therundownai.substack.com/feed)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://llm-stats.com/rss\\\\n\" -L --max-time 10 https://llm-stats.com/rss)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://llm-stats.com/ai-news/feed\\\\n\" -L --max-time 10 https://llm-stats.com/ai-news/feed)",
+      "Bash(curl -s -o /dev/null -w \"  %{http_code} - https://llm-stats.com/rss.xml\\\\n\" -L --max-time 10 https://llm-stats.com/rss.xml)",
+      "Bash(git init:*)",
+      "Bash(git add:*)"
+    ]
+  }
+}

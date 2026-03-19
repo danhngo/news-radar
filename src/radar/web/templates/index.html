@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — AI Intelligence Radar{% endblock %}
+{% block content %}
+<h1>Dashboard</h1>
+
+<section class="stats">
+    <h2>Signal Sources</h2>
+    {% if source_counts %}
+    <div class="stat-grid">
+        {% for source, count in source_counts.items() %}
+        <div class="stat-card">
+            <span class="stat-label">{{ source }}</span>
+            <span class="stat-value">{{ count }}</span>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty">No signals collected yet. Run <code>radar run</code> to get started.</p>
+    {% endif %}
+</section>
+
+<section class="briefings">
+    <h2>Briefings</h2>
+    {% if briefings %}
+    <ul class="briefing-list">
+        {% for b in briefings %}
+        <li>
+            <a href="/briefing/{{ b.date }}">
+                <span class="date">{{ b.date }}</span>
+                <span class="meta">{{ b.signals_in_briefing }} signals &middot; {{ b.total_collected }} collected</span>
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="empty">No briefings generated yet.</p>
+    {% endif %}
+</section>
+{% endblock %}

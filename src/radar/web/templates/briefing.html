@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}{{ date }} — AI Intelligence Radar{% endblock %}
+{% block content %}
+<div class="breadcrumb">
+    <a href="/">&larr; Dashboard</a>
+</div>
+<article class="briefing-content">
+    {{ content | safe }}
+</article>
+{% endblock %}

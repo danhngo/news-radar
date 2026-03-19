@@ -1,0 +1,27 @@
+[project]
+name = "news-radar"
+version = "0.1.0"
+description = "AI Intelligence Radar - Daily AI news briefing pipeline"
+requires-python = ">=3.11"
+dependencies = [
+    "aiohttp>=3.9",
+    "click>=8.1",
+    "feedparser>=6.0",
+    "fastapi>=0.115",
+    "uvicorn>=0.32",
+    "jinja2>=3.1",
+    "scikit-learn>=1.5",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0",
+    "markdown>=3.7",
+]
+
+[project.scripts]
+radar = "radar.cli:cli"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/radar"]

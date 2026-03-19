@@ -1,0 +1,112 @@
+pipeline:
+  batch_size: 15
+  max_concurrent_extractions: 5
+  clustering_threshold: 0.7
+  max_briefing_signals: 12
+  min_briefing_signals: 5
+
+sources:
+  hackernews:
+    enabled: true
+    keywords:
+      - "AI"
+      - "LLM"
+      - "GPT"
+      - "machine learning"
+      - "deep learning"
+      - "neural network"
+      - "transformer"
+      - "anthropic"
+      - "openai"
+      - "generative"
+    min_score: 10
+    max_items: 200
+
+  reddit:
+    enabled: true
+    subreddits:
+      - "MachineLearning"
+      - "artificial"
+      - "LocalLLaMA"
+      - "singularity"
+    min_score: 20
+    max_items: 200
+
+  arxiv:
+    enabled: true
+    categories:
+      - "cs.AI"
+      - "cs.CL"
+      - "cs.LG"
+      - "cs.CV"
+    max_items: 200
+
+  github:
+    enabled: true
+    query: "AI OR LLM OR machine-learning"
+    min_stars: 50
+    max_items: 200
+
+  rss:
+    enabled: true
+    feeds:
+      - url: "https://blog.google/technology/ai/rss/"
+        name: "Google AI Blog"
+      - url: "https://openai.com/blog/rss.xml"
+        name: "OpenAI Blog"
+      - url: "https://deepmind.google/blog/rss.xml"
+        name: "DeepMind Blog"
+      - url: "https://engineering.fb.com/category/ml-applications/feed/"
+        name: "Meta AI / Engineering"
+      - url: "https://huggingface.co/blog/feed.xml"
+        name: "Hugging Face Blog"
+      - url: "https://www.technologyreview.com/topic/artificial-intelligence/feed"
+        name: "MIT Technology Review AI"
+      - url: "https://bair.berkeley.edu/blog/feed.xml"
+        name: "BAIR Blog (UC Berkeley)"
+    max_items: 200
+
+scoring:
+  weights:
+    novelty: 0.30
+    impact: 0.25
+    relevance: 0.25
+    authority: 0.20
+  core_topics:
+    - "large language model"
+    - "artificial intelligence"
+    - "machine learning"
+    - "neural network"
+    - "deep learning"
+    - "reinforcement learning"
+    - "computer vision"
+    - "natural language processing"
+    - "generative AI"
+    - "AI safety"
+    - "AI alignment"
+
+lanes:
+  research:
+    label: "Research & Papers"
+    min: 1
+    max: 3
+  product:
+    label: "Products & Launches"
+    min: 1
+    max: 3
+  ecosystem:
+    label: "Industry & Ecosystem"
+    min: 1
+    max: 3
+  startup:
+    label: "Startups & Funding"
+    min: 1
+    max: 3
+  events:
+    label: "Events & Community"
+    min: 0
+    max: 2
+
+web:
+  host: "0.0.0.0"
+  port: 8080
