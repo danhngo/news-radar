@@ -144,8 +144,71 @@ def get_extractions_for_date(date: str) -> list[ExtractedSignal]:
     rows = conn.execute(
         "SELECT e.*, s.url, s.source, s.meta FROM extractions e "
         "JOIN signals s ON e.signal_id = s.id "
-        "WHERE date(s.collected_at) = ?",
+        "WHERE date(COALESCE(s.published, s.collected_at)) = ?",
         (date,),
+    ).fetchall()
+    conn.close()
+    results = []
+    for r in rows:
+        raw = RawSignal(
+            id=r["signal_id"], source=r["source"], url=r["url"],
+            title=r["title"], body="", author="",
+            published=datetime.now(), collected_at=datetime.now(),
+            meta=json.loads(r["meta"]) if r["meta"] else {},
+        )
+        results.append(ExtractedSignal(
+            signal_id=r["signal_id"],
+            title=r["title"],
+            summary=r["summary"],
+            entities=json.loads(r["entities"]) if r["entities"] else [],
+            category=r["category"],
+            novelty=r["novelty"],
+            raw=raw,
+        ))
+    return results
+
+
+def get_extractions_by_ids(signal_ids: set[str]) -> list[ExtractedSignal]:
+    """Get extractions for a specific set of signal IDs."""
+    if not signal_ids:
+        return []
+    conn = get_connection()
+    placeholders = ",".join("?" for _ in signal_ids)
+    rows = conn.execute(
+        f"SELECT e.*, s.url, s.source, s.meta FROM extractions e "
+        f"JOIN signals s ON e.signal_id = s.id "
+        f"WHERE e.signal_id IN ({placeholders})",
+        list(signal_ids),
+    ).fetchall()
+    conn.close()
+    results = []
+    for r in rows:
+        raw = RawSignal(
+            id=r["signal_id"], source=r["source"], url=r["url"],
+            title=r["title"], body="", author="",
+            published=datetime.now(), collected_at=datetime.now(),
+            meta=json.loads(r["meta"]) if r["meta"] else {},
+        )
+        results.append(ExtractedSignal(
+            signal_id=r["signal_id"],
+            title=r["title"],
+            summary=r["summary"],
+            entities=json.loads(r["entities"]) if r["entities"] else [],
+            category=r["category"],
+            novelty=r["novelty"],
+            raw=raw,
+        ))
+    return results
+
+
+def get_recent_extractions(limit: int = 1000) -> list[ExtractedSignal]:
+    """Get most recent extractions regardless of date."""
+    conn = get_connection()
+    rows = conn.execute(
+        "SELECT e.*, s.url, s.source, s.meta FROM extractions e "
+        "JOIN signals s ON e.signal_id = s.id "
+        "ORDER BY s.collected_at DESC LIMIT ?",
+        (limit,),
     ).fetchall()
     conn.close()
     results = []
