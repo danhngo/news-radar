@@ -23,7 +23,7 @@ class ArxivCollector(BaseCollector):
         categories = cfg.get("categories", ["cs.AI", "cs.CL", "cs.LG"])
         max_items = cfg.get("max_items", 200)
 
-        cat_query = "+OR+".join(f"cat:{c}" for c in categories)
+        cat_query = " OR ".join(f"cat:{c}" for c in categories)
         params = {
             "search_query": cat_query,
             "start": 0,
