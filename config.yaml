@@ -64,7 +64,7 @@ sources:
         name: "MIT Technology Review AI"
       - url: "https://bair.berkeley.edu/blog/feed.xml"
         name: "BAIR Blog (UC Berkeley)"
-    max_items: 200
+    max_items: 500
 
 scoring:
   weights:
