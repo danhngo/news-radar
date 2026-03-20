@@ -84,13 +84,23 @@ async def run_extract(config: dict, signal_ids: set[str] | None = None) -> tuple
     return len(extracted), all_extracted
 
 
-async def run_pipeline(date: str | None = None) -> None:
+async def run_pipeline(date: str | None = None, extra_topics: list[str] | None = None) -> None:
     """Run the full pipeline."""
     config = get_config()
+
+    # Merge extra topics into scoring config
+    if extra_topics:
+        scoring = config.setdefault("scoring", {})
+        core = scoring.setdefault("core_topics", [])
+        for t in extra_topics:
+            if t.lower() not in [c.lower() for c in core]:
+                core.append(t)
     target_date = date or datetime.now().strftime("%Y-%m-%d")
     db.init_db()
 
     click.echo(f"\n=== AI Intelligence Radar — {target_date} ===\n")
+    if extra_topics:
+        click.echo(f"  Boosted topics: {', '.join(extra_topics)}\n")
 
     # Stage 1: Collect
     click.echo("[1/6] Collecting signals...")
@@ -131,7 +141,8 @@ async def run_pipeline(date: str | None = None) -> None:
         "total_clusters": total_clusters,
     }
     if selected:
-        meta = generate_briefing(target_date, selected, stats)
+        all_topics = config.get("scoring", {}).get("core_topics", [])
+        meta = generate_briefing(target_date, selected, stats, topics=all_topics)
         db.upsert_briefing(meta)
         db.upsert_scored_signals(target_date, selected)
         click.echo(f"  Briefing saved: {meta.file_path}\n")

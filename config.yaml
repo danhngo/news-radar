@@ -62,6 +62,10 @@ sources:
         name: "Hugging Face Blog"
       - url: "https://www.technologyreview.com/topic/artificial-intelligence/feed"
         name: "MIT Technology Review AI"
+      - url: "https://blogs.microsoft.com/ai/feed/"
+        name: "Microsoft AI Blog"
+      - url: "https://www.microsoft.com/en-us/research/feed/"
+        name: "Microsoft Research"
       - url: "https://bair.berkeley.edu/blog/feed.xml"
         name: "BAIR Blog (UC Berkeley)"
     max_items: 500

@@ -103,14 +103,34 @@ code {
 }
 
 .briefing-list a {
+    display: block;
+    padding: 0.8rem 0;
+    text-decoration: none;
+}
+
+.briefing-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.8rem 0;
 }
 
 .briefing-list .date { font-weight: 600; }
 .briefing-list .meta { color: var(--text-dim); font-size: 0.9rem; }
+
+.topics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 0.4rem;
+}
+
+.topic-tag {
+    background: var(--border);
+    color: var(--accent);
+    padding: 0.15rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+}
 
 .empty {
     color: var(--text-dim);

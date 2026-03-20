@@ -80,3 +80,4 @@ class BriefingMeta:
     total_clusters: int
     signals_in_briefing: int
     file_path: str
+    topics: list[str] = field(default_factory=list)

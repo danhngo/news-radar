@@ -63,7 +63,8 @@ CREATE TABLE IF NOT EXISTS briefings (
     total_extracted INTEGER,
     total_clusters INTEGER,
     signals_in_briefing INTEGER,
-    file_path TEXT
+    file_path TEXT,
+    topics TEXT DEFAULT '[]'
 );
 
 CREATE INDEX IF NOT EXISTS idx_signals_source ON signals(source);
@@ -250,10 +251,11 @@ def upsert_briefing(meta: BriefingMeta) -> None:
     conn = get_connection()
     conn.execute(
         "INSERT OR REPLACE INTO briefings "
-        "(date, generated_at, total_collected, total_extracted, total_clusters, signals_in_briefing, file_path) "
-        "VALUES (?, ?, ?, ?, ?, ?, ?)",
+        "(date, generated_at, total_collected, total_extracted, total_clusters, signals_in_briefing, file_path, topics) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
         (meta.date, meta.generated_at.isoformat(), meta.total_collected,
-         meta.total_extracted, meta.total_clusters, meta.signals_in_briefing, meta.file_path),
+         meta.total_extracted, meta.total_clusters, meta.signals_in_briefing,
+         meta.file_path, json.dumps(meta.topics)),
     )
     conn.commit()
     conn.close()
@@ -263,7 +265,12 @@ def get_briefings() -> list[dict]:
     conn = get_connection()
     rows = conn.execute("SELECT * FROM briefings ORDER BY date DESC").fetchall()
     conn.close()
-    return [dict(r) for r in rows]
+    results = []
+    for r in rows:
+        d = dict(r)
+        d["topics"] = json.loads(d.get("topics") or "[]")
+        results.append(d)
+    return results
 
 
 def get_signal_counts_by_source() -> dict[str, int]:

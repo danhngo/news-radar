@@ -26,8 +26,17 @@
         {% for b in briefings %}
         <li>
             <a href="/briefing/{{ b.date }}">
-                <span class="date">{{ b.date }}</span>
-                <span class="meta">{{ b.signals_in_briefing }} signals &middot; {{ b.total_collected }} collected</span>
+                <div class="briefing-row">
+                    <span class="date">{{ b.date }}</span>
+                    <span class="meta">{{ b.signals_in_briefing }} signals &middot; {{ b.total_collected }} collected</span>
+                </div>
+                {% if b.topics %}
+                <div class="topics">
+                    {% for t in b.topics %}
+                    <span class="topic-tag">{{ t }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
             </a>
         </li>
         {% endfor %}

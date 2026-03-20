@@ -14,7 +14,9 @@ BRIEFING_TEMPLATE = Template("""\
 # AI Intelligence Radar — {{ date }}
 
 > Generated: {{ generated_at }} | Signals: {{ total_collected }} collected → {{ total_extracted }} extracted → {{ total_clusters }} clusters → {{ signals_in_briefing }} selected
-
+{% if topics %}
+> **Topics**: {{ topics | join(', ') }}
+{% endif %}
 ---
 {% for lane_key, lane_label, signals in lanes %}
 ## {{ lane_label }}
@@ -41,6 +43,7 @@ def generate_briefing(
     date: str,
     selected: list[ScoredSignal],
     stats: dict,
+    topics: list[str] | None = None,
 ) -> BriefingMeta:
     """Generate a markdown briefing file and return metadata."""
     cfg = get_config()
@@ -69,6 +72,7 @@ def generate_briefing(
         total_clusters=stats.get("total_clusters", 0),
         signals_in_briefing=len(selected),
         lanes=lanes,
+        topics=topics or [],
     )
 
     file_path = briefings_dir / f"{date}.md"
@@ -82,4 +86,5 @@ def generate_briefing(
         total_clusters=stats.get("total_clusters", 0),
         signals_in_briefing=len(selected),
         file_path=str(file_path),
+        topics=topics or [],
     )
